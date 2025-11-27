@@ -1,7 +1,42 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
-func main()  {
-	fmt.Println("Hello, World!")
+func main() {
+	title, content, err := getNoteData()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(title, content)
+}
+
+func getNoteData() (string, string, error) {
+	title, err := getUserInput("Note title: ")
+	if err != nil {
+		fmt.Println(err)
+		return "", "", err
+	}
+
+	content, err := getUserInput("Note content: ")
+	if err != nil {
+		fmt.Println(err)
+		return "", "", err
+	}
+	return title, content, nil
+}
+
+func getUserInput(prompt string) (string, error) {
+	fmt.Print(prompt)
+	var value string
+	fmt.Scanln(&value)
+
+	if value == "" {
+		return "", errors.New("Invalid input")
+	}
+	return value, nil
 }
