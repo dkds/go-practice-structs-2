@@ -1,42 +1,32 @@
 package main
 
 import (
-	"errors"
 	"fmt"
+
+	"dkds.me/structs-2/note"
 )
 
 func main() {
-	title, content, err := getNoteData()
+	title, content := getNoteData()
+
+	note, err := note.New(title, content)
+
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-
-	fmt.Println(title, content)
+	note.Display()
 }
 
-func getNoteData() (string, string, error) {
-	title, err := getUserInput("Note title: ")
-	if err != nil {
-		fmt.Println(err)
-		return "", "", err
-	}
-
-	content, err := getUserInput("Note content: ")
-	if err != nil {
-		fmt.Println(err)
-		return "", "", err
-	}
-	return title, content, nil
+func getNoteData() (string, string) {
+	title := getUserInput("Note title: ")
+	content := getUserInput("Note content: ")
+	return title, content
 }
 
-func getUserInput(prompt string) (string, error) {
+func getUserInput(prompt string) string {
 	fmt.Print(prompt)
 	var value string
 	fmt.Scanln(&value)
-
-	if value == "" {
-		return "", errors.New("Invalid input")
-	}
-	return value, nil
+	return value
 }
