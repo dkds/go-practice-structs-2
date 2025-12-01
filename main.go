@@ -13,12 +13,19 @@ func main() {
 	title, content := getNoteData()
 
 	note, err := note.New(title, content)
-
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+
 	note.Display()
+
+	err = note.Save()
+	if err != nil {
+		fmt.Println("Failed to save the note to a file")
+		return
+	}
+	fmt.Println("Successfully saved note")
 }
 
 func getNoteData() (string, string) {
