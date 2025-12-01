@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strings"
 
 	"dkds.me/structs-2/note"
 )
@@ -26,7 +29,14 @@ func getNoteData() (string, string) {
 
 func getUserInput(prompt string) string {
 	fmt.Print(prompt)
-	var value string
-	fmt.Scanln(&value)
-	return value
+
+	reader := bufio.NewReader(os.Stdin)
+	text, err := reader.ReadString('\n')
+	if err != nil {
+		return ""
+	}
+	text = strings.TrimSuffix(text, "\n")
+	text = strings.TrimSuffix(text, "\r")
+
+	return text
 }
