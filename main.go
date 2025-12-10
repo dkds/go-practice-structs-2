@@ -10,6 +10,10 @@ import (
 	"dkds.me/structs-2/todo"
 )
 
+type saver interface {
+	Save() error
+}
+
 func main() {
 	title, content := getNoteData()
 
@@ -22,13 +26,11 @@ func main() {
 	}
 
 	todo.Display()
-
-	err = todo.Save()
+	err = saveData(todo)
 	if err != nil {
-		fmt.Println("Failed to save the todo to a file")
+		fmt.Println(err)
 		return
 	}
-	fmt.Println("Successfully saved todo")
 
 	note, err := note.New(title, content)
 	if err != nil {
@@ -37,13 +39,21 @@ func main() {
 	}
 
 	note.Display()
-
-	err = note.Save()
+	err = saveData(note)
 	if err != nil {
-		fmt.Println("Failed to save the note to a file")
+		fmt.Println(err)
 		return
 	}
-	fmt.Println("Successfully saved note")
+}
+
+func saveData(data saver) error {
+	err := data.Save()
+	if err != nil {
+		fmt.Println("Failed to save the data to file")
+		return err
+	}
+	fmt.Println("Successfully saved data")
+	return nil
 }
 
 func getNoteData() (string, string) {
