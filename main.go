@@ -7,10 +7,28 @@ import (
 	"strings"
 
 	"dkds.me/structs-2/note"
+	"dkds.me/structs-2/todo"
 )
 
 func main() {
 	title, content := getNoteData()
+
+	todoText := getUserInput("Todo content: ")
+
+	todo, err := todo.New(todoText)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	todo.Display()
+
+	err = todo.Save()
+	if err != nil {
+		fmt.Println("Failed to save the todo to a file")
+		return
+	}
+	fmt.Println("Successfully saved todo")
 
 	note, err := note.New(title, content)
 	if err != nil {
