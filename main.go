@@ -56,6 +56,18 @@ func main() {
 	printAnything("1.0")
 	printAnything(note)
 	printAnything(todo)
+
+	intResult := add(1, 2)
+	floatResult := add(1.0, 2.0)
+	stringResult := add("1", "2")
+
+	printAnything(intResult)
+	printAnything(floatResult)
+	printAnything(stringResult)
+}
+
+func add[T int | float64 | string](a, b T) T {
+	return a + b
 }
 
 func printAnything(data any) {
